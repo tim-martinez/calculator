@@ -35,6 +35,3 @@ function operate(num1,num2,operator){
     }
 };
 
-//test operate function
-console.log(operate(num1,num2,'divide'));
-
