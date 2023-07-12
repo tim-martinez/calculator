@@ -10,7 +10,6 @@ const decimal = document.querySelector('.decimal')
 let num1 = '';
 let num2 = '';
 let operator = '';
-let answer = ''
 
 display.classList.add('display-font');
 
@@ -22,10 +21,32 @@ equalBtn.addEventListener('click', () => handleClickOnEqual());
 
 clear.addEventListener('click', () => window.location.reload());
 
+decimal.addEventListener('click', handleClickOnDecimal, { once: true });
+
 del.addEventListener('click', () => {
-    num1 = num1.slice(0, -1);
-    display.textContent = num1;
+    if (num2 !== ''){
+        num2 = num2.slice(0, -1);
+        display.textContent = num1 + operator + num2;
+    } else if (num2 === '' && operator !== ''){
+        operator = ''
+        display.textContent = num1 + operator;
+    } else {
+        num1 = num1.slice(0, -1);
+        display.textContent = num1;
+    };
 });
+
+function handleClickOnDecimal(){
+    
+    if(operator === ''){
+        num1 += '.';
+        display.textContent += '.';
+        
+    }else {
+        num2 += '.';
+        display.textContent += '.';
+    };
+};
 
 function handleClickOnFirstNum(){2
     num1 += this.innerHTML;
@@ -47,6 +68,9 @@ function handleClickOnOperator(){
     //store and display operator
     operator = this.innerHTML;
     display.textContent += ' ' + operator + ' ';
+
+    //second decimal
+    decimal.addEventListener('click', handleClickOnDecimal, { once: true });
 
     //2nd number
     secondNumber.forEach((secondNumber) => secondNumber.addEventListener('click', handleClickOnSecondNum));
@@ -85,18 +109,22 @@ function operate(num1,num2,operator){
         return num1;
     };
 
-    num1 = parseInt(num1);
-    num2 = parseInt(num2);
+    num1 = Number(num1);
+    num2 = Number(num2);
+
+    let answer = 0;
 
     if (operator === '+'){
-        return add(num1,num2);
+        answer = add(num1,num2);
     } else if (operator === '-'){
-        return subtract(num1,num2);
+        answer = subtract(num1,num2);
     } else if (operator === 'x'){
-        return multiply(num1,num2);
+        answer = multiply(num1,num2);
     } else if (operator === '/'){
-        return divide(num1,num2);
+        answer = divide(num1,num2);
     }else {
-        return 'ERROR';
+        answer = 'ERROR';
     }
+
+    return Math.round(answer * 100) / 100;
 };
