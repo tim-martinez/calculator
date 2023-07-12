@@ -90,3 +90,7 @@ p {
     font-family: digital;
     font-size: 50px;
 }
+
+button {
+    font-weight: bold;
+}
